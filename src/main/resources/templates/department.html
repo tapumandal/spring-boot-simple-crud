@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<section layout:fragment="content" class="content-wrapper" style="padding:50px; background:white;">
+    <a th:href="@{/department/create}" type="button" class="btn btn-success md" style="margin-bottom: 20px;">Create New Department</a>
+    <div class="box-body">
+        <div id="example1_wrapper" style="display:block" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                colspan="1" aria-sort="ascending"
+                                aria-label="Rendering engine: activate to sort column descending"
+                                style="width: 169px;">No</th>
+                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                colspan="1" aria-sort="ascending"
+                                aria-label="Rendering engine: activate to sort column descending"
+                                style="width: 169px;">Department Name</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                aria-label="Browser: activate to sort column ascending" style="width: 209px;">
+                                Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr role="row" class="odd" th:each="department,iter  : ${departmentList}">
+                            <td class="sorting_1" th:text="${iter.index+1}"></td>
+                            <td th:text="${department.department}"></td>
+                            <td>
+                                <a th:href="@{/department/update/}+${department.id}" type="button" class="" >
+                                    <i class="fa fa-fw fa-edit"></i>
+                                </a>
+                                |
+                                <a th:href="@{/department/delete/}+${department.id}" type="button" class="" >
+                                    <i style="color:red;" class="far fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>

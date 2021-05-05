@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<section layout:fragment="content" class="content-wrapper" style="padding:50px; background:white;">
+    <div class="row">
+        <div class="col-md-6">
+            <a th:href="@{/customer/create}" type="button" class="btn btn-success md" style="margin-bottom: 20px;">Create New Customer</a>
+        </div>
+        <div class="col-md-6">
+            <div class="dropdown" style="margin-bottom:20px; float:right;">
+                <button style="background-color: #909090; border-color: #909090;" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span >Number of entities: </span>
+                    <span th:text="${customerList.size}"></span>
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu" style=" padding:0px;">
+                    <li>
+                        <a th:href="@{/customer(size=5, page=${customerList.number+1})}" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">5</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/customer(size=10, page=${customerList.number+1})}" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">10</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/customer(size=20, page=${customerList.number+1})}" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">20</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="box-body">
+        <div id="example1_wrapper" style="display:block" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+
+
+<!--                    <a th:href="@{/customer(size=${customerList.size}, page=${customerList.number+2})}" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Next</a>-->
+
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                colspan="1" aria-sort="ascending"
+                                aria-label="Rendering engine: activate to sort column descending"
+                                style="width: 169px;">No</th>
+                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                colspan="1" aria-sort="ascending"
+                                aria-label="Rendering engine: activate to sort column descending"
+                                style="width: 169px;">Customer Name</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                aria-label="Browser: activate to sort column ascending" style="width: 209px;">
+                                Department Name</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                aria-label="Platform(s): activate to sort column ascending"
+                                style="width: 185px;">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr role="row" class="odd" th:each="customer,iter : ${customerList.content}">
+                            <td class="sorting_1" th:text="${iter.index+1}"></td>
+                            <td th:text="${customer.name}"></td>
+                            <td >
+
+                                <div th:if="${not #lists.isEmpty(customer.departments)}" th:text="${customer.departments[0].department}">
+
+                                </div>
+                            </td>
+                            <td>
+                                <a th:href="@{/customer/update/}+${customer.id}" type="button" class="" >
+                                    <i class="fa fa-fw fa-edit"></i>
+                                </a>
+                                |
+                                <a th:href="@{/customer/delete/}+${customer.id}" type="button" class="" >
+                                    <i style="color:red;" class="far fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                    <style>
+                        .page-item.active .page-link {
+                            z-index: 1;
+                            color: #fff;
+                            background-color: #007bff;
+                            border-color: #007bff;
+                        }
+
+                        .page-link {
+                            position: relative;
+                            display: block;
+                            padding: .5rem .75rem;
+                            margin-left: -1px;
+                            line-height: 1.25;
+                            color: #007bff;
+                            background-color: #fff;
+                            border: 1px solid #dee2e6;
+                        }
+                    </style>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4">
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                                <ul class="pagination">
+                                    <li th:classappend="${(customerList.number+1) > 1} ? enable : disabled"  class="paginate_button page-item next" id="example1_previous">
+                                        <a th:href="@{/customer(size=${customerList.size}, page=${customerList.number})}" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Previous</a>
+                                    </li>
+                                    <li th:if="${customerList.totalPages > 0}" th:each="pageNumber : ${pageNumbers}" class="paginate_button page-item" th:classappend="${pageNumber==customerList.number + 1} ? active">
+                                        <a th:href="@{/customer(size=${customerList.size}, page=${pageNumber})}"
+                                           th:text=${pageNumber}
+                                            href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link"></a>
+                                    </li>
+                                    <li th:classappend="${customerList.totalPages > (customerList.number+1)} ? enable : disabled"  class="paginate_button page-item next" id="example1_next">
+                                        <a th:href="@{/customer(size=${customerList.size}, page=${customerList.number+2})}" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    <div th:if="${customerList.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">-->
+<!--                        <a th:href="@{/customer(size=${customerList.size}, page=${pageNumber})}"-->
+<!--                           th:text=${pageNumber}-->
+<!--                           th:class="${pageNumber==customerList.number + 1} ? active"></a>-->
+<!--                    </div>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>

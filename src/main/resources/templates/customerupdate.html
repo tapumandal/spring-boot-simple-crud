@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<section layout:fragment="content" class="content-wrapper" style="padding:50px; background:white;">
+    <div class="box-body">
+        <div id="example1_wrapper" style="display:block" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form role="form" th:href="@{/customer/update/}+${customer.id}" th:method="post">
+                        <!-- text input -->
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <input style="width:100% !important" name="id" th:value="${customer.id}" type="hidden" class="form-control" >
+                                <label style="width:100%; justify-content:left !important">Customer Name</label>
+                                <input style="width:100% !important" name="name" th:value="${customer.name}" type="text" class="form-control" placeholder="Name ...">
+                            </div>
+
+                            <div class="form-group blu-margin">
+                                <label style="width:100%; justify-content:left !important">Select Department</label>
+                                <select name="departmentId" class="form-control"   id="dropOperator" style="width:100% !important">
+                                    <option value="0">Select</option>
+
+                                    <option th:if="${not #lists.isEmpty(customer.departments)}"
+                                            th:each="department : ${departmentDtoList}"
+                                            th:value="${department.id}"
+                                            th:text="${department.department}"
+                                            th:selected="${department.department == customer.departments[0].department}" ></option>
+
+                                    <option th:if="${#lists.isEmpty(customer.departments)}"
+                                            th:each="department : ${departmentDtoList}"
+                                            th:value="${department.id}"
+                                            th:text="${department.department}" ></option>
+
+                                </select>
+                            </div>
+
+                            <div class=" col-md-2">
+                                <button  type="submit" class="btn btn-success md" style="margin-top: 22px;">Update</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>
